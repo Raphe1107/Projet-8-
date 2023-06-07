@@ -17,13 +17,8 @@ const slides = [
 	}
 ]
 
-
-// On récupècure nos éléments dans le HTML
-const flecheGauche = document.querySelector (".arrow_left");
-const flecheDroite = document.querySelector (".arrow_right");
-const tagLine = document.querySelector ("#banner p");
-const Image = document.querySelector (".banner-img");
-const dots = document.querySelector (".dot");
+const arrowLeft = document.querySelector (".arrow_left");
+const arrowRight = document.querySelector (".arrow_right");
 
 document.querySelector(".dots").innerHTML = 
 '<div class="dot"></div>'
@@ -37,35 +32,49 @@ let currentSlide = 0;
 // Fonction qui permet d'afficher la diapositive actuelle 
 function showSlide() {
 
-// On récupère l'objet de la diapositive correspondante à l'index actuel
-const currentSlideObj = slides[currentSlide];
+	// On récupècure nos éléments dans le HTML
+	const tagLine = document.querySelector ("#banner p");
+	const Image = document.querySelector (".banner-img");
+
+	// On récupère l'objet de la diapositive correspondante à l'index actuel
+	const currentSlideObj = slides[currentSlide];
 
 
-// On met à jour l'image de la diapositive
-Image.src = `./assets/images/slideshow/${currentSlideObj.image}`;
+	// On met à jour l'image de la diapositive
+	Image.src = `./assets/images/slideshow/${currentSlideObj.image}`;
 
-// On met à jour la tagLine de l'image 
-tagLine.innerHTML = currentSlideObj.tagLine;
+	// On met à jour la tagLine de la diapositive
+	tagLine.innerHTML = currentSlideObj.tagLine;
 
+	const dots = document.querySelectorAll('.dot');
+
+	// On défini le point actif en fonction de la diapositive 
+	dots.forEach((dot, dotPosition) => {
+	if (dotPosition === currentSlide) {
+		dot.classList.add('dot_selected');
+	} else {
+		dot.classList.remove('dot_selected');
+	}
+	});
 };
 
 // On ajoute un évenement sur la flèche de gauche 
-flecheGauche.addEventListener ("click" , ()=> {
+arrowLeft.addEventListener ("click" , ()=> {
 	// On décrémente l'index de la diapositive actuelle 
 	currentSlide--;
 
-	// On vérifie avec la condition if si l'index est inférieur à 0 et donc revenir à la dernière diapositive
+	// On vérifie avec la condition if si l'index est inférieur à 0 et donc revenir à la diapositive précédente
 	if (currentSlide <0) {
 		currentSlide = slides.length - 1;
 	}
-
+	
 	// On affiche la diapostive mise à jour
 	showSlide();
 	
 });
 
 // On ajoute un évenement sur la flèche de droite
-flecheDroite.addEventListener ("click" , ()=> {
+arrowRight.addEventListener ("click" , ()=> {
 	// On incrémente l'index de la diapositive actuelle 
 	currentSlide ++;
 
